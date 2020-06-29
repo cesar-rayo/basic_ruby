@@ -16,7 +16,7 @@ module Reports
         end
 
         def build
-            puts "=> Execute build '#{@report_name}'"
+            puts "=> #{self.class}: Execute build '#{@report_name}'"
         end
     end
 
@@ -28,7 +28,7 @@ module Reports
             @sender = "ai_noresponse@email.com"
         end
         def build
-            puts "=> Sender '#{@sender}' report '#{@report_name}'"
+            puts "=> #{self.class}: Sender '#{@sender}' report '#{@report_name}'"
         end
     end
 
@@ -39,7 +39,24 @@ module Reports
             @author = author
         end
         def build
-            puts "=> Created file '#{@file_name}' by '#{@author}'"
+            #using %Q instead double quotes
+            puts %Q(=> #{self.class}: Created file '#{@file_name}' by '#{@author}')
+        end
+    end
+
+    class Example
+        attr_accessor :test_hash
+        def initialize
+            @test_hash = {
+                "key_1" => "val_1",
+                "key_2" => "val_2",
+                "key_3" => "val_3"
+            }
+        end
+        def printHash
+            @test_hash.each do |key, value|
+                puts "=> #{self.class}: printHash: #{key}, #{value}"
+            end
         end
     end
 end
