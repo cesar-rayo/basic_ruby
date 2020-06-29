@@ -36,4 +36,4 @@ Triangle.new(
 
 show
 ```
-![alt text](http://url/to/img.png)
+![alt text](https://github.com/cesar-rayo/basic_ruby/blob/master/images/triangle.png)
