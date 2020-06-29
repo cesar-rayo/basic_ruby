@@ -22,6 +22,8 @@ $ rbenv global 2.6.2
 
 ## Using Ruby2d
 ```rb
+require 'ruby2d'
+
 set width: 300, height: 200
 s = Square.new
 s.color = 'red'
@@ -31,8 +33,6 @@ show
 
 ```rb
 require 'ruby2d'
-
-
 set title: "Hello Triangle"
 
 Triangle.new(
