@@ -7,20 +7,20 @@ $ bundle exec ruby tests/minitest.rb
 $ bundle exec ruby main.rb
 ```
 
-Install rbenv
+##Install rbenv
 ```
 $ git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 $ git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 $ export PATH="$HOME/.rbenv/bin:$PATH"
 ```
 
-Install ruby 2.6.2 and set as default
+##Install ruby 2.6.2 and set as default
 ```
 $ rbenv install 2.6.2
 $ rbenv global 2.6.2
 ```
 
-Using Ruby2d
+##Using Ruby2d
 ```
 require 'ruby2d'
 
