@@ -21,7 +21,15 @@ $ rbenv global 2.6.2
 ```
 
 ## Using Ruby2d
+```rb
+set width: 300, height: 200
+s = Square.new
+s.color = 'red'
+show
 ```
+![alt text](https://github.com/cesar-rayo/basic_ruby/blob/master/images/square.png)
+
+```rb
 require 'ruby2d'
 
 
