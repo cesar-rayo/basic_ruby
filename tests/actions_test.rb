@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require 'minitest/mock'
 require './src/actions/actions'
 require './src/model/state'
 
@@ -49,5 +50,57 @@ class ActionsTests < Minitest::Test
 
         actual_state = Actions::change_direction(@initial_state, Model::Direction::LEFT)
         assert_equal actual_state, expected_state
+    end
+
+    def test_grow_snake
+        initial_state = Model::State.new(
+            Model::Snake.new([
+                Model::Point.new(1,1),
+                Model::Point.new(0,1)
+            ]),
+            Model::Food.new(2,1),
+            Model::Grid.new(8,12),
+            Model::Direction::DOWN,
+            false
+        )
+        #grows 1 point
+        actual_state = Actions::move_snake(initial_state)
+        assert_equal(actual_state.snake.positions, [
+                Model::Point.new(2,1),
+                Model::Point.new(1,1),
+                Model::Point.new(0,1)
+            ])
+    end
+
+    def test_generate_food
+        initial_state = Model::State.new(
+            Model::Snake.new([
+                Model::Point.new(1,1),
+                Model::Point.new(0,1)
+            ]),
+            Model::Food.new(2,1),
+            Model::Grid.new(8,12),
+            Model::Direction::DOWN,
+            false
+        )
+
+        expected_state = Model::State.new(
+            Model::Snake.new([
+                Model::Point.new(2,1),
+                Model::Point.new(1,1),
+                Model::Point.new(0,1)
+            ]),
+            Model::Food.new(0,0),
+            Model::Grid.new(8,12),
+            Model::Direction::DOWN,
+            false
+        )
+        
+        #mocking random number
+        Actions.stub(:rand, 0) do
+            #grows 1 point
+            actual_state = Actions::move_snake(initial_state)
+            assert_equal actual_state, expected_state
+        end
     end
 end

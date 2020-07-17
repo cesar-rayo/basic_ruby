@@ -1,11 +1,12 @@
 require 'ruby2d'
-
+require_relative "../model/state"
 # Draw elements
 module View
     class Ruby2dView
         
-        def initialize
+        def initialize(app)
             @pixel_size = 50
+            @app = app
         end
 
         def start(state)
@@ -15,16 +16,41 @@ module View
                 width: @pixel_size * state.grid.columns,
                 height: @pixel_size * state.grid.rows
             )
+            #read input
+            on :key_down do |event|
+                handle_key_event(event)
+            end
             show
         end
 
         def render(state)
-            render_snake(state)
+            extend Ruby2D::DSL
+            close if state.game_finish
             render_food(state)
+            render_snake(state)
         end
 
         #Accessible from Ruby2dView only
         private
+
+        def handle_key_event(event)
+            case event.key
+            when "up"
+                # goes up
+                @app.send_action(:change_direction, Model::Direction::UP)
+            when "down"
+                # goes down
+                @app.send_action(:change_direction, Model::Direction::DOWN)
+            when "left"
+                # goes left
+                @app.send_action(:change_direction, Model::Direction::LEFT)
+            when "right"
+                # goes right
+                @app.send_action(:change_direction, Model::Direction::RIGHT)
+            when "escape"
+                @app.end_game
+            end
+        end
 
         def render_food(state)
             @food.remove if @food #removes element if not nil

@@ -3,7 +3,10 @@ module Actions
         next_direction = state.current_direction
         next_point = calc_next_point(state)
         #check next move
-        if position_is_valid?(state, next_point)
+        if next_position_is_food?(state, next_point)
+            grow_snake_to(state, next_point)
+            generate_food(state)
+        elsif position_is_valid?(state, next_point)
             move_snake_to(state, next_point)
         else
             end_game(state)
@@ -20,6 +23,13 @@ module Actions
     end
 
     private
+
+    def self.generate_food(state)
+        #random point
+        new_food = Model::Food.new(rand(state.grid.rows), rand(state.grid.columns))
+        state.food = new_food
+        state
+    end
 
     def self.calc_next_point(state)
         current_position = state.snake.positions.first
@@ -53,6 +63,10 @@ module Actions
         end
     end
 
+    def self.next_position_is_food?(state, point)
+        state.food.row == point.row && state.food.column == point.column
+    end
+
     def self.position_is_valid?(state, point)
         #check grid contains point
         is_invalid = ((point.row >= state.grid.rows || point.row < 0) || 
@@ -61,6 +75,12 @@ module Actions
 
         #check point available
         return !(state.snake.positions.include? point)
+    end
+
+    def self.grow_snake_to(state, point)
+        new_positions = [point] + state.snake.positions
+        state.snake.positions = new_positions
+        state
     end
 
     def self.move_snake_to(state, point)
@@ -74,6 +94,7 @@ module Actions
 
     def self.end_game(state)
         puts "GAME OVER"
+        puts "SCORE: #{state.snake.positions.length}"
         state.game_finish = true
         return state
     end
